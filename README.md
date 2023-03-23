@@ -7,7 +7,11 @@ To do this, we build a tip calculator app called Tip Time with these built-in Co
 * A Text composable to display text.
 * A Spacer composable to display empty space between the UI elements.
 
+### Version - 1
 <img alt="img.png" height="650" src="Screenshots/img.png" width="300"/>
+
+### Version - 2
+<img alt="img.png" height="650" src="img.png" width="300"/>
 
 When Using States we will learn how to use state hoisting to expose state to higher function.
 

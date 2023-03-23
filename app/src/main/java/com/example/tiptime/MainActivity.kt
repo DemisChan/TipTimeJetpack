@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tiptime.ui.theme.TipTimeTheme
 import java.text.NumberFormat
-import java.time.temporal.TemporalAmount
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,15 +40,17 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun EditNumberField(
+    label: Int,
     value: String,
     onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     TextField(
         value = value,
         onValueChange = onValueChange,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth(),
-        label = { Text(stringResource(id = R.string.cost_of_service)) },
+        label = { Text(stringResource(id = label)) },
         singleLine = true,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
     )
@@ -66,9 +67,11 @@ private fun calculateTip(
 @Composable
 fun TipTimeScreen() {
     var amountInput by remember { mutableStateOf("") }
+    var tipInput by remember { mutableStateOf("") }
 
+    val tipPercent = tipInput.toDoubleOrNull() ?: 0.0
     val amount = amountInput.toDoubleOrNull() ?: 0.0
-    val tip = calculateTip(amount)
+    val tip = calculateTip(amount, tipPercent)
 
     Column(
         modifier = Modifier.padding(32.dp),
@@ -83,8 +86,14 @@ fun TipTimeScreen() {
             modifier = Modifier.height(16.dp)
         )
         EditNumberField(
+            label = R.string.bill_amount,
             value = amountInput,
             onValueChange = { amountInput = it }
+        )
+        EditNumberField(
+            label = R.string.how_was_the_service,
+            value = tipInput,
+            onValueChange = { tipInput = it}
         )
         Spacer(
             modifier = Modifier.height(24.dp)
